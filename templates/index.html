@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>FaceLogin</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400" rel="stylesheet" />
+		<script src="/static/js/jquery.min.js"></script>
+		<script src="/static/js/config.js"></script>
+		<script src="/static/js/skel.min.js"></script>
+		<script src="http://api.filepicker.io/v1/filepicker.js"></script>
+		<link rel="stylesheet" href="/static/css/skel-noscript.css" />
+		<link rel="stylesheet" href="/static/css/style.css" />
+		<link rel="stylesheet" href="/static/css/style-desktop.css" />
+		<!--[if lte IE 8]><script src="/static/js/html5shiv.js"></script><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+	</head>
+	<body class="homepage">
+
+		<!-- Wrapper-->
+			<div id="wrapper">
+				
+				<!-- Nav -->
+					<nav id="nav">
+						<a href="#home" class="icon icon-home active"><span>Home</span></a>
+						<a href="#register" class="icon icon-plus"><span>Register</span></a>
+						<a href="#login" class="icon icon-signin"><span>Login</span></a>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">						
+						<!-- Home -->
+							<article id="home" class="panel">
+								<header>
+									<h1>FaceLogin</h1>
+									<span class="byline">Get access to secured resouces, using only your face!</span>
+								</header>
+							</article>
+
+						<!-- Register --> 
+							<article id="register" class="panel">
+								<header>
+									<h2>Register a user</h2>
+								</header>
+								<p>
+									Use this form to add users to the list of authorized people.
+								</p>
+								<div class ="row half">
+									<div class ="12u">
+										<button class="button" onclick="myFunction()">Select images</button>
+									</div>
+								</div>
+									<script>
+									function myFunction() {
+										filepicker.setKey("ABrQ7EUkRv6JFwHG32Zgqz");
+										filepicker.pickAndStore({mimetype:"image/*", services: ['COMPUTER', 'FACEBOOK','DROPBOX', 'GOOGLE_DRIVE', 'IMAGE_SEARCH', 'WEBCAM', 'PICASA', 'URL'], multiple: "true"}, {location:"S3"}, function(InkBlobs) {
+											console.log(JSON.stringify(InkBlobs));
+											var url_string = [];
+											for (var i = 0; i < InkBlobs.length; i++) {
+												url_string.push(InkBlobs[i].url);
+											}
+											document.getElementById("urls").value = JSON.stringify(url_string);
+										});
+									}
+									</script>
+
+								<form action="/register" method="post">
+									<input type="hidden" name="urls" value="" id="urls">
+									<div class="row half">
+										<div class="12u">
+											<input type="text" class="text" name="name" placeholder="Name of user" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="12u">
+											<input type="submit" class="button" value="Add user" />
+										</div>
+									</div>
+								</form>
+							</article>
+
+						<!-- Login -->
+							<article id="login" class="panel">
+								<header>
+									<h2>Login here</h2>
+								</header>
+								<iframe id="login_div" width="600" height="500" scrolling="no" frameborder="0">
+								</iframe>
+								<div class ="row half">
+									<div class ="12u">
+										<button class="button" onclick="auth()">Authenticate here</button>
+									<script>
+									function auth() {
+										filepicker.setKey("ABrQ7EUkRv6JFwHG32Zgqz");
+										filepicker.pickAndStore({container: 'login_div', service: 'WEBCAM'}, {location:"S3"}, function(InkBlob) {
+											console.log(InkBlob[0].url);
+											document.getElementById("url_auth").value=InkBlob[0].url;
+										});
+									}
+									</script>
+									</div>
+								</div>
+
+								<form action="/login" method="post">
+									<input type = hidden name="url_auth" value="" id="url_auth">
+									<input type="submit" class="button" value="Check validity" />
+								</form>
+							</article>
+
+					</div>
+		
+				<!-- Footer -->
+					<div id="footer">
+						<ul class="links">
+							<li>Developed by Aditya Dalal</li>
+							<li>HackRU Fall 2013</li>
+							<li>Design : <a href="http://html5up.net/">HTML5 UP</a></li>
+						</ul>
+					</div>
+		
+			</div>
+
+	</body>
+</html>
