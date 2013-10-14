@@ -43,7 +43,7 @@ def train_images():
 	# call image training procedure
 	rk_train = {'api_key': rk_api_key, 'api_secret': rk_api_secret, 'jobs': 'face_train'}
 	q = requests.post("http://rekognition.com/func/api/?", params = rk_train)
-	return render_template('index.html')
+	return render_template('add.html')
 
 # send image to ReKognition for recognition
 @app.route('/login', methods=['GET', 'POST'])
