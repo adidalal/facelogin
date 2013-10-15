@@ -8,3 +8,4 @@ APIs used: reKognition, FilePicker.io
 
 Created at HackRU Fall 2013
 
+demo at: facelogin.herokuapp.com
